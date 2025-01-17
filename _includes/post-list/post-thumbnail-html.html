@@ -5,11 +5,16 @@
 {%-endcomment-%}
 
 <div class="thumbnails" >
+
+  
   <a href="{{include.url}}"></a>
-  <div class="image-holder" style="background-image:url('{{include.image}}');{{include.display}}"></div>
+  <div class="image-holder" style="background-image:url('{{ include.image }}'); {{ include.display | default: 'display:block;' }}"></div>
+  <!-- <div class="image-holder" style="background-image:url('{{include.image}}'); {{include.display}};"></div> -->
   <div class="excerpt-holder" {{include.max_width}}>
     <div class="post-title">{{include.title}}</div>
     <p>{{include.title_sub}}</p>
     {%- include post_common/post-info-html.html date=include.date read_time=include.read_time url=include.url comment_style = include.comment_style -%}
   </div>
+
+  
 </div>
