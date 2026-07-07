@@ -1,0 +1,28 @@
+# 플레이스홀더 — 실제 기술 스택으로 교체
+- category: "Backend"
+  items:
+    - "Java"
+    - "Spring Boot"
+    - "Kotlin"
+    - "Node.js"
+    - "REST API"
+
+- category: "Cloud & Infra"
+  items:
+    - "AWS (EC2, S3, RDS)"
+    - "Docker"
+    - "Kubernetes"
+    - "Terraform"
+    - "GitHub Actions"
+
+- category: "Database"
+  items:
+    - "MySQL"
+    - "PostgreSQL"
+    - "Redis"
+
+- category: "Tools"
+  items:
+    - "Git"
+    - "Jira"
+    - "Notion"

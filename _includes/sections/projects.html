@@ -1,0 +1,21 @@
+<section class="section section--projects reveal" id="projects">
+  <div class="container">
+    <p class="label">03 / PROJECTS</p>
+    <div class="project-grid">
+      {% assign projects = site.projects | sort: 'order' %}
+      {% for project in projects %}
+      <a class="project-card" href="{{ project.url | relative_url }}">
+        <p class="project-card__period">{{ project.period }}</p>
+        <h3>{{ project.title }}</h3>
+        <p class="project-card__summary">{{ project.summary }}</p>
+        <ul class="tag-list">
+          {% for tag in project.tags %}
+          <li class="tag">{{ tag }}</li>
+          {% endfor %}
+        </ul>
+        <span class="project-card__link">자세히 보기 &rarr;</span>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>

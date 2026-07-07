@@ -1,0 +1,564 @@
+/* ---------------------------------------------------------
+   Tokens
+--------------------------------------------------------- */
+:root {
+  --bg: #0b0d10;            /* page canvas — 검정 톤 */
+  --bg-elevated: #12151a;   /* nested surface: project-card, code chip */
+  --border: #23262c;
+  --text: #e7e9ec;
+  --text-muted: #8b93a1;
+  --accent: #7ee8de;
+  --accent-strong: #4fd1c5;
+  --accent-soft: rgba(126, 232, 222, 0.14);
+  --grid-line: rgba(255, 255, 255, 0.045);
+  --grid-size: 44px;
+
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Apple SD Gothic Neo", "Malgun Gothic", "Helvetica Neue", Arial, sans-serif;
+  --font-mono: ui-monospace, "SFMono-Regular", Menlo, Consolas, "Liberation Mono",
+    monospace;
+
+  --container: 1100px;
+}
+
+/* ---------------------------------------------------------
+   Reset
+--------------------------------------------------------- */
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background-color: var(--bg);
+  background-image: linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+  background-size: var(--grid-size) var(--grid-size);
+  background-attachment: fixed;
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: 17px;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: inherit; text-decoration: none; }
+ul { list-style: none; margin: 0; padding: 0; }
+h1, h2, h3, p { margin: 0; }
+
+.label {
+  font-family: var(--font-mono);
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--accent);
+  text-transform: uppercase;
+  margin-bottom: 1.25rem;
+}
+
+.tag-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.tag {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 0.25rem 0.6rem;
+}
+
+/* ---------------------------------------------------------
+   Nav
+--------------------------------------------------------- */
+.site-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.1rem 2rem;
+  background: rgba(11, 13, 16, 0.8);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--border);
+}
+
+.site-nav__brand {
+  font-family: var(--font-mono);
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: var(--text);
+}
+
+.site-nav__links {
+  display: flex;
+  gap: 1.75rem;
+}
+
+.site-nav__links a {
+  font-size: 1.02rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  transition: color 0.15s ease;
+}
+
+.site-nav__links a:hover,
+.site-nav__links a.is-active {
+  color: var(--text);
+}
+
+.site-nav__links .idx {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+/* ---------------------------------------------------------
+   Layout — 박스 없이, 톤 그라데이션으로 섹션을 자연스럽게 구분
+--------------------------------------------------------- */
+main {
+  padding-top: 4.5rem;
+}
+
+.hero,
+.section {
+  position: relative;
+  width: 100%;
+  background-image: linear-gradient(
+    to bottom,
+    color-mix(in srgb, var(--bg) 92%, transparent) 0%,
+    color-mix(in srgb, var(--tone, var(--bg)) 86%, transparent) 50%,
+    color-mix(in srgb, var(--bg) 92%, transparent) 100%
+  );
+}
+
+.container {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 6rem 2rem;
+}
+
+.hero {
+  min-height: calc(100vh - 4.5rem);
+  align-items: center;
+  justify-content: center;
+}
+
+/* 섹션마다 은은하게 다른 톤 — 경계는 위 그라데이션으로 자연스럽게 풀림 */
+.section--about     { --tone: #10161c; }
+.section--skills     { --tone: #141726; }
+.section--projects   { --tone: #0f1c1a; }
+.section--experience { --tone: #1a1712; }
+.section--contact    { --tone: #0d1f21; }
+
+/* 스크롤 리빌 */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ---------------------------------------------------------
+   Hero
+--------------------------------------------------------- */
+.hero__name {
+  font-size: clamp(2.6rem, 6.5vw, 4.4rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin-bottom: 0.75rem;
+}
+
+.hero__tagline {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  color: var(--text-muted);
+  font-size: 1.05rem;
+  margin-bottom: 1.75rem;
+}
+
+.hero__summary {
+  max-width: 46ch;
+  color: var(--text-muted);
+  margin-bottom: 2.5rem;
+}
+
+.hero__actions {
+  display: flex;
+  gap: 1rem;
+}
+
+.btn {
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+  font-weight: 600;
+  padding: 0.75rem 1.4rem;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+  transition: all 0.15s ease;
+}
+
+.btn--primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #06141a;
+}
+
+.btn--primary:hover {
+  background: var(--accent-strong);
+  border-color: var(--accent-strong);
+}
+
+.btn--ghost {
+  color: var(--text);
+}
+
+.btn--ghost:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* ---------------------------------------------------------
+   About
+--------------------------------------------------------- */
+.about__grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 3rem;
+}
+
+.about__text p {
+  color: var(--text-muted);
+}
+
+.about__values {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+}
+
+.about__values li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.9rem;
+  font-weight: 500;
+}
+
+.about__values .idx {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--accent);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  width: 1.6rem;
+  height: 1.6rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* ---------------------------------------------------------
+   Skills
+--------------------------------------------------------- */
+.skills__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 2.5rem;
+}
+
+.skills__group h3 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+/* ---------------------------------------------------------
+   Projects — 섹션 전체가 하나의 박스, 카드가 그 안에 다시 박스로
+--------------------------------------------------------- */
+.project-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.5rem;
+}
+
+.project-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1.75rem;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--bg-elevated);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+  transition: border-color 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.project-card:hover {
+  border-color: var(--accent);
+  transform: translateY(-3px);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
+}
+
+.project-card__period {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+.project-card h3 {
+  font-size: 1.3rem;
+  font-weight: 700;
+}
+
+.project-card__summary {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+.project-card__link {
+  margin-top: auto;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--accent);
+}
+
+/* ---------------------------------------------------------
+   Experience
+--------------------------------------------------------- */
+.timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+}
+
+.timeline__item {
+  display: grid;
+  grid-template-columns: 160px 1fr;
+  gap: 2rem;
+  padding-left: 1.5rem;
+  border-left: 1px solid var(--border);
+}
+
+.timeline__period {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.timeline__body h3 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+}
+
+.timeline__role {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--accent);
+  margin-bottom: 0.75rem;
+}
+
+.timeline__highlights {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.timeline__highlights li {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  position: relative;
+  padding-left: 1rem;
+}
+
+.timeline__highlights li::before {
+  content: "—";
+  position: absolute;
+  left: 0;
+  color: var(--border);
+}
+
+/* ---------------------------------------------------------
+   Contact
+--------------------------------------------------------- */
+.section--contact h2 {
+  font-size: clamp(1.7rem, 3.8vw, 2.3rem);
+  font-weight: 800;
+  max-width: 20ch;
+  margin-bottom: 2.5rem;
+}
+
+.contact-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.contact-list a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-mono);
+  font-weight: 600;
+  font-size: 1.15rem;
+  padding: 0.9rem 0;
+  border-bottom: 1px solid var(--border);
+  transition: color 0.15s ease;
+}
+
+.contact-list a:hover {
+  color: var(--accent);
+}
+
+.contact-list .arrow {
+  transition: transform 0.15s ease;
+}
+
+.contact-list a:hover .arrow {
+  transform: translateX(4px);
+}
+
+/* ---------------------------------------------------------
+   Footer
+--------------------------------------------------------- */
+.site-footer {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 2.5rem 2rem 4rem;
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  font-family: var(--font-mono);
+}
+
+/* ---------------------------------------------------------
+   Project detail page
+--------------------------------------------------------- */
+.project-detail {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 6rem 2rem 8rem;
+}
+
+.back-link {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  margin-bottom: 3rem;
+}
+
+.back-link:hover {
+  color: var(--accent);
+}
+
+.project-detail__header h1 {
+  font-size: clamp(1.9rem, 4vw, 2.7rem);
+  font-weight: 800;
+  margin: 0.5rem 0 1rem;
+}
+
+.project-detail__meta {
+  font-family: var(--font-mono);
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  margin-bottom: 1.25rem;
+}
+
+.project-detail__meta .dot {
+  margin: 0 0.5rem;
+}
+
+.project-detail__header .tag-list {
+  margin-bottom: 3rem;
+}
+
+.project-detail__body {
+  border-top: 1px solid var(--border);
+  padding-top: 3rem;
+}
+
+.project-detail__body h2 {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--accent);
+  margin: 3rem 0 1rem;
+}
+
+.project-detail__body h2:first-child {
+  margin-top: 0;
+}
+
+.project-detail__body p,
+.project-detail__body li {
+  color: var(--text-muted);
+}
+
+.project-detail__body ol,
+.project-detail__body ul {
+  padding-left: 1.4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.project-detail__body ol { list-style: decimal; }
+.project-detail__body ul { list-style: disc; }
+
+.project-detail__body code {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--text);
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 0.15rem 0.45rem;
+}
+
+/* ---------------------------------------------------------
+   Responsive
+--------------------------------------------------------- */
+@media (max-width: 720px) {
+  .site-nav { padding: 1rem 1.25rem; }
+  .site-nav__links { gap: 1rem; }
+  .site-nav__links .idx { display: none; }
+
+  .container {
+    padding: 4rem 1.25rem;
+  }
+
+  .project-detail {
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+  }
+
+  .about__grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .timeline__item {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+}

@@ -1,116 +1,87 @@
----
-layout: util/compress_js
----
-/*! Mr. Green Jekyll Theme (https://github.com/MrGreensWorkshop/MrGreen-JekyllTheme)
- *  Copyright (c) 2022 Mr. Green's Workshop https://www.MrGreensWorkshop.com
- *  Licensed under MIT
-*/
+(function () {
+  var sections = document.querySelectorAll("main .hero, main .section");
+  var navLinks = document.querySelectorAll(".site-nav__links a");
 
-{% include_relative _js/default/nav/close-top-nav-on-outside-click.js %}
-{% include_relative _js/default/tooltip-init.js %}
-{% include_relative _js/default/show-tooltip.js %}
+  if (!sections.length || !navLinks.length) return;
 
-{% if site.data.conf.main.color_scheme_dark -%}
-  {% if site.data.conf.main.color_scheme_switch_side_nav or site.data.conf.main.color_scheme_switch_top_nav -%}
-    {% include_relative _js/default/nav/color-scheme-switch.js %}
-  {%- endif %}
-{%- endif %}
+  var linksById = {};
+  navLinks.forEach(function (link) {
+    var id = link.getAttribute("href").split("#")[1];
+    if (id) linksById[id] = link;
+  });
 
-{% if site.data.conf.main.side_nav_toggle_button_no_top_nav_buttons -%}
-  {% include_relative _js/default/nav/side-nav-toggle.js %}
-{%- endif %}
+  var observer = new IntersectionObserver(
+    function (entries) {
+      entries.forEach(function (entry) {
+        var link = linksById[entry.target.id];
+        if (!link) return;
+        if (entry.isIntersecting) {
+          navLinks.forEach(function (l) { l.classList.remove("is-active"); });
+          link.classList.add("is-active");
+        }
+      });
+    },
+    { rootMargin: "-45% 0px -50% 0px" }
+  );
 
-{% if site.data.conf.main.scroll_back_to_top_button -%}
-  {% include_relative _js/default/scroll-to-top.js %}
-{%- endif %}
+  sections.forEach(function (section) {
+    if (section.id) observer.observe(section);
+  });
 
-{% for owner in site.data.owner -%}
-  {% assign email_exist = owner[1].contacts | where_exp: "item", "item.email != nil" | first -%}
-  {% if email_exist -%}
-    {% include_relative _js/default/set-email.js %}
-    {% break %}
-  {%- endif %}
-{%- endfor %}
+  // 부드러운 커스텀 스크롤 (ease-in-out)
+  var NAV_OFFSET = 72;
 
-{% if site.data.lang.size > 1 and site.data.conf.main.language_switch_lang_list.size > 1 and site.data.conf.main.language_translation_offer_box -%}
-  {% assign language_translation_offer_box = true %}
-  {% include_relative _js/default/check-storage-availability.js %}
-  {% include_relative _js/default/lang-offer-msg-box.js %}
-{%- endif %}
+  function easeInOutCubic(t) {
+    return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+  }
 
-{% if site.data.conf.main.contact_form.enable == true %}
-  {% include_relative _js/contact-form/google-contact-form-iframe.js %}
-{% endif %}
+  function smoothScrollTo(targetY, duration) {
+    var startY = window.scrollY;
+    var distance = targetY - startY;
+    var startTime = null;
 
-{% if site.data.conf.main.cookie_consent.enable == true
-  or language_translation_offer_box == true
-  or site.data.conf.main.contact_form.enable == true
-%}
-  {% include_relative _js/default/sliding-msg-box.js %}
-{%- endif %}
+    function step(timestamp) {
+      if (startTime === null) startTime = timestamp;
+      var elapsed = timestamp - startTime;
+      var progress = Math.min(elapsed / duration, 1);
+      window.scrollTo(0, startY + distance * easeInOutCubic(progress));
+      if (progress < 1) requestAnimationFrame(step);
+    }
 
-{% if site.data.conf.main.cookie_consent.enable == true %}
-  {% include_relative _js/default/cookie-consent.js %}
-{%- endif %}
+    requestAnimationFrame(step);
+  }
 
-/**********************************************************
-* for layout specific content
-***********************************************************/
+  document.querySelectorAll('a[href*="#"]').forEach(function (link) {
+    var hash = link.getAttribute("href").split("#")[1];
+    if (!hash) return;
+    var target = document.getElementById(hash);
+    if (!target) return;
 
-{% if site.posts != nil and site.posts != empty %} {% assign post_exist = true %} {% endif %}
+    link.addEventListener("click", function (e) {
+      e.preventDefault();
+      var targetY = target.getBoundingClientRect().top + window.scrollY - NAV_OFFSET;
+      var distance = Math.abs(targetY - window.scrollY);
+      var duration = Math.min(1100, Math.max(500, distance * 0.6));
+      smoothScrollTo(targetY, duration);
+      history.pushState(null, "", "#" + hash);
+    });
+  });
 
-{% assign pages = site.html_pages | where_exp: "item", "item.layout == 'post-list'" %}
-{% if pages.size > 0 %} {% assign post_list_page_exist = true %} {% endif %}
+  // 마우스 휠로 내려올 때도 섹션이 자연스럽게 떠오르는 리빌 애니메이션
+  var revealEls = document.querySelectorAll(".reveal");
+  if (revealEls.length) {
+    var revealObserver = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+            revealObserver.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.15, rootMargin: "0px 0px -80px 0px" }
+    );
 
-{% assign pages = site.html_pages | where_exp: "item", "item.layout == 'home'" %}
-{% if pages.size > 0 %} {% assign home_page_exist = true %} {% endif %}
-
-{% assign pages = site.html_pages | where_exp: "item", "item.layout == 'links'" %}
-{% if pages.size > 0 %} {% assign links_page_exist = true %} {% endif %}
-
-{% assign pages = site.html_pages | where_exp: "item", "item.layout == 'projects'" %}
-{% if pages.size > 0 %} {% assign projects_page_exist = true %} {% endif %}
-
-
-{% if home_page_exist %}
-  {% include_relative _js/home/heading-fade-in.js %}
-{% endif %}
-
-{%- if links_page_exist and site.data.conf.others.links.use_rows_as_link -%}
-  {% include_relative _js/links/open-url-in-new-page.js %}
-{%- endif %}
-
-{% if projects_page_exist %}
-  {% include_relative _js/projects/read-more-less.js %}
-{% endif %}
-
-{%- if post_exist -%}
-  {%- if site.data.conf.posts.share_buttons == true -%}
-    {% include_relative _js/post/copy-to-clipboard.js %}
-  {%- endif %}
-
-  {%- if site.data.conf.posts.post_table_of_contents == true -%}
-    {% include_relative _js/post/movable-panels.js %}
-  {%- endif %}
-
-  {%- if site.data.conf.posts.post_table_of_contents == true -%}
-    {% include_relative _js/post/table-of-contents-init.js %}
-  {%- endif %}
-{%- endif %}
-
-{%- if post_exist or post_list_page_exist %}
-  {% if site.data.conf.posts.pager_page_numbers_auto_generator == true %}
-    {% if site.data.conf.posts.pager_navigation_post == 'page_numbers' or site.data.conf.posts.pager_navigation_post_list == 'page_numbers' -%}
-      {% include_relative _js/post_common/pager-page-numbers.js %}
-    {%- endif %}
-  {%- endif %}
-{%- endif %}
-
-{%- if post_list_page_exist -%}
-  {% if site.data.conf.posts.post_query %}
-   {% include_relative _js/post-list/post-query.js %}
-    {% if site.data.conf.posts.post_query_tabs %}
-      {% include_relative _js/post-list/upside-down-tabs-slide.js %}
-    {% endif -%}
-  {% endif -%}
-{%- endif %}
+    revealEls.forEach(function (el) { revealObserver.observe(el); });
+  }
+})();

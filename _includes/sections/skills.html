@@ -1,0 +1,17 @@
+<section class="section section--skills reveal" id="skills">
+  <div class="container">
+    <p class="label">02 / SKILLS</p>
+    <div class="skills__grid">
+      {% for group in site.data.skills %}
+      <div class="skills__group">
+        <h3>{{ group.category }}</h3>
+        <ul class="tag-list">
+          {% for item in group.items %}
+          <li class="tag">{{ item }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>

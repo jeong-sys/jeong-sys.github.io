@@ -1,0 +1,21 @@
+<section class="section section--experience reveal" id="experience">
+  <div class="container">
+    <p class="label">04 / EXPERIENCE</p>
+    <ul class="timeline">
+      {% for job in site.data.experience %}
+      <li class="timeline__item">
+        <p class="timeline__period">{{ job.period }}</p>
+        <div class="timeline__body">
+          <h3>{{ job.company }}</h3>
+          <p class="timeline__role">{{ job.role }}</p>
+          <ul class="timeline__highlights">
+            {% for h in job.highlights %}
+            <li>{{ h }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+</section>
