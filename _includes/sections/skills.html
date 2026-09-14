@@ -7,7 +7,10 @@
         <h3>{{ group.category }}</h3>
         <ul class="tag-list">
           {% for item in group.items %}
-          <li class="tag">{{ item }}</li>
+          <li class="tag">
+            {% if item.icon %}<img class="tag__icon" src="{{ item.icon }}" alt="" loading="lazy">{% endif %}
+            <span>{{ item.name }}</span>
+          </li>
           {% endfor %}
         </ul>
       </div>

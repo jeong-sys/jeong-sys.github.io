@@ -4,6 +4,12 @@
 !.git*
 !.editorconfig
 
+# Local Claude configuration
+.claude/
+.claude.json
+CLAUDE.md
+CLAUDE.local.md
+
 # jekyll Cache
 _site
 .sass-cache

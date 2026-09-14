@@ -1,28 +1,38 @@
-# 플레이스홀더 — 실제 기술 스택으로 교체
 - category: "Backend"
   items:
-    - "Java"
-    - "Spring Boot"
-    - "Kotlin"
-    - "Node.js"
-    - "REST API"
-
-- category: "Cloud & Infra"
-  items:
-    - "AWS (EC2, S3, RDS)"
-    - "Docker"
-    - "Kubernetes"
-    - "Terraform"
-    - "GitHub Actions"
+    - name: "Java"
+      icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg"
+    - name: "Spring Boot"
+      icon: "https://cdn.simpleicons.org/springboot"
+    - name: "Spring"
+      icon: "https://cdn.simpleicons.org/spring"
+    - name: "Python"
+      icon: "https://cdn.simpleicons.org/python"
 
 - category: "Database"
   items:
-    - "MySQL"
-    - "PostgreSQL"
-    - "Redis"
+    - name: "Cubrid"
+    - name: "MySQL"
+      icon: "https://cdn.simpleicons.org/mysql"
+    - name: "MariaDB"
+      icon: "https://cdn.simpleicons.org/mariadb"
+
+- category: "Cloud & Infra"
+  items:
+    - name: "Docker"
+      icon: "https://cdn.simpleicons.org/docker"
+    - name: "GitHub Actions"
+      icon: "https://cdn.simpleicons.org/githubactions"
+    - name: "AWS (EC2, S3, RDS)"
+      icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/amazonwebservices/amazonwebservices-original-wordmark.svg"
 
 - category: "Tools"
   items:
-    - "Git"
-    - "Jira"
-    - "Notion"
+    - name: "Git"
+      icon: "https://cdn.simpleicons.org/git"
+    - name: "Jira"
+      icon: "https://cdn.simpleicons.org/jira"
+    - name: "Notion"
+      icon: "https://cdn.simpleicons.org/notion"
+    - name: "Slack"
+      icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/slack/slack-original.svg"

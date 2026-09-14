@@ -6,6 +6,7 @@ layout: default
 
   <header class="project-detail__header">
     <p class="label">PROJECT</p>
+    <span class="badge badge--{{ page.type }}">{% if page.type == "company" %}실무{% else %}개인·팀{% endif %}</span>
     <h1>{{ page.title }}</h1>
     <p class="project-detail__meta">
       <span>{{ page.period }}</span>
@@ -19,7 +20,9 @@ layout: default
     </ul>
   </header>
 
-  <div class="project-detail__body">
+  <div class="project-detail__body" id="project-body">
     {{ content }}
   </div>
 </article>
+
+<button class="back-to-top" id="back-to-top" type="button" aria-label="맨 위로 이동">&uarr;</button>

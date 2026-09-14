@@ -1,0 +1,8 @@
+name: "허유정"
+avatar: "/assets/images/aboutMe.jpeg" # 예: /assets/images/avatar.jpg — 비워두면 빈 사진 박스 표시
+role: "Backend Developer"
+tagline: "CI/CD · Docker · Linux · Java"
+summary: "질문을 두려워 하지 않는 개발자\n 운영 중인 서비스를 유지보수하며, 코드 한 줄의 무게를 배웠습니다."
+email: "rosee1234553@gmail.com"
+github: "https://github.com/jeong-sys"
+linkedin: ""

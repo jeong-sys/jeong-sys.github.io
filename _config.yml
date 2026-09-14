@@ -1,15 +1,7 @@
-title: "Your Name"
+title: "허유정"
 description: "Backend Developer Portfolio"
 
-# 프로필 (플레이스홀더 — 나중에 실제 정보로 교체)
-name: "홍길동"
-role: "Backend Developer"
-tagline: "Backend Developer · Cloud에 관심"
-summary: "맡은 일은 끝까지 파고들어 확실하게 마무리합니다. 백엔드를 기반으로 클라우드 영역까지 넓혀가고 있습니다."
-
-email: "you@example.com"
-github: "https://github.com/jeong-sys"
-linkedin: ""
+# 프로필 정보는 _data/profile.yml 에서 관리 (수정 시 서버 재시작 불필요)
 
 markdown: kramdown
 permalink: pretty

@@ -1,12 +1,19 @@
 <section class="hero" id="top">
-  <div class="container">
-    <p class="label">// {{ site.role }}</p>
-    <h1 class="hero__name">{{ site.name }}</h1>
-    <p class="hero__tagline">{{ site.tagline }}</p>
-    <p class="hero__summary">{{ site.summary }}</p>
-    <div class="hero__actions">
-      <a class="btn btn--primary" href="#projects">프로젝트 보기</a>
-      <a class="btn btn--ghost" href="#contact">연락하기</a>
+  <div class="container hero__grid">
+    <div class="hero__content">
+      <p class="label">// {{ site.data.profile.role }}</p>
+      <h1 class="hero__name">{{ site.data.profile.name }}</h1>
+      <p class="hero__tagline">{{ site.data.profile.tagline }}</p>
+      <p class="hero__summary">{{ site.data.profile.summary }}</p>
+      <div class="hero__actions">
+        <a class="btn btn--primary" href="#projects">프로젝트 보기</a>
+        <a class="btn btn--ghost" href="#contact">연락하기</a>
+      </div>
+    </div>
+    <div class="hero__photo">
+      {% if site.data.profile.avatar and site.data.profile.avatar != "" %}
+        <img src="{{ site.data.profile.avatar | relative_url }}" alt="{{ site.data.profile.name }}">
+      {% endif %}
     </div>
   </div>
 </section>

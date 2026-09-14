@@ -1,0 +1,29 @@
+<section class="section section--certifications reveal" id="certifications">
+  <div class="container">
+    <p class="label">05 / CERTIFICATIONS &amp; AWARDS</p>
+    <div class="cert-groups">
+      <div class="cert-group">
+        <h3>자격증</h3>
+        <ul class="cert-list">
+          {% for cert in site.data.certifications %}
+          <li class="cert-item">
+            <span class="cert-item__date">{{ cert.date }}</span>
+            <span class="cert-item__name">{{ cert.name }}</span>
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+      <div class="cert-group">
+        <h3>수상</h3>
+        <ul class="cert-list">
+          {% for award in site.data.awards %}
+          <li class="cert-item">
+            <span class="cert-item__date">{{ award.date }}</span>
+            <span class="cert-item__name">{{ award.name }} <span class="cert-item__prize">· {{ award.prize }}</span></span>
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>

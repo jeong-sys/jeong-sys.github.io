@@ -5,7 +5,10 @@
       {% assign projects = site.projects | sort: 'order' %}
       {% for project in projects %}
       <a class="project-card" href="{{ project.url | relative_url }}">
-        <p class="project-card__period">{{ project.period }}</p>
+        <div class="project-card__top">
+          <p class="project-card__period">{{ project.period }}</p>
+          <span class="badge badge--{{ project.type }}">{% if project.type == "company" %}실무{% else %}개인·팀{% endif %}</span>
+        </div>
         <h3>{{ project.title }}</h3>
         <p class="project-card__summary">{{ project.summary }}</p>
         <ul class="tag-list">
